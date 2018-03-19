@@ -1,3 +1,5 @@
+This is the base for the docker image schlothauer/jsoncodegen:0.4.1
+
 # jsonCodeGen
 A simple Groovy based program to do generation tasks from a JSON schema.
 
