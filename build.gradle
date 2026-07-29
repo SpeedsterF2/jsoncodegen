@@ -17,7 +17,7 @@ targetCompatibility = 17
 def mc='de.lisaplus.atlas.DoCodeGen'
 
 project.group = 'de.lisaplus.tools'
-project.version = '0.14.0'
+project.version = '0.14.1'
 
 
 task sourcesJar(type: Jar) {

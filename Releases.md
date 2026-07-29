@@ -1,3 +1,7 @@
+## 0.14.1
+- Updated to latest Groovy 4.x for compatibility with Java 21
+- updated dependencies
+
 ## 0.14.0
 - switched to Groovy 4.x, Gradle 7.x and Java 17
 - updated dependencies
