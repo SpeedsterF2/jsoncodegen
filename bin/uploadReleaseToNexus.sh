@@ -14,7 +14,7 @@ version=`cat "$scriptPos/../build.gradle" | grep project.version | grep = | sed 
 echo "version: $version"
 
 pushd "$scriptPos/.." > /dev/null
-if ! gradle publish; then
+if ! ./gradlew publish; then
     echo "error while publish jars to nexus"
     popd > /dev/null
 fi
@@ -31,12 +31,12 @@ if [ -z "$NEXUS_RAW_ARCHIVE" ]; then
 fi
 
 pushd "$scriptPos/.." > /dev/null
-if ! gradle clean build; then
+if ! ./gradlew clean build; then
     echo 'error while build'
     exit 1
 fi
 
-if ! gradle buildRelease; then
+if ! ./gradlew buildRelease; then
     echo 'error while build release'
     exit 1
 fi

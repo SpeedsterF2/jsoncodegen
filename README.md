@@ -3,7 +3,7 @@ A simple Groovy based program to do generation tasks from a JSON schema.
 
 ## Requirements
 * Java 17
-* Gradle v7.*
+* Gradle v8.* / the included gradle wrapper
 
 ## Unsupported JSON schema features
 * patternProperties - make no sense in model description
@@ -49,36 +49,36 @@ A simple Groovy based program to do generation tasks from a JSON schema.
 ```
 
 
-## Handle with gradle
-### Using with gradle
+## Handle with gradle / included gradle wrapper (./gradlew)
+### Using with gradle wrapper (./gradlew)
 ```bash
 
 # builds a release with all dependencies
 # release is built in PROJECT_DIR/build/release
 # before a release is build the tests are executed - skip not possible
-gradle buildRelease
+./gradlew buildRelease
 
 # builds release and copy artifacts to docker image dir as preparation for the image build
-gradle buildDockerImage
+./gradlew buildDockerImage
 
 # run program without any arguments from project
-gradle myRun
+./gradlew myRun
 
 # run program with arguments ... opens test schema
-gradle myRun -PmyArgs="-m,src/test/resources/schemas/ProcessDataEvent.json"
+./gradlew myRun -PmyArgs="-m,src/test/resources/schemas/ProcessDataEvent.json"
 
-# complex example for debug mode run
-gradle myRun -PDEBUG -PmyArgs="-o,/tmp/test_beans,-m,src/test/resources/test_schemas/multiType.json,\
+# complex example for debug mode run (will wait for the remote debugger to attach!)
+./gradlew myRun -PDEBUG -PmyArgs="-o,/tmp/test_beans,-m,src/test/resources/test_schemas/multiType.json,\
 -g,multifiles=src/main/resources/templates/java/bean.txt,\
 -gp,destFileNameExt=java,-gp,packageName=de.sw.atlas.test"
 
 # complex example without debug mode run
-gradle myRun -PmyArgs="-o,/tmp/test_beans,-m,src/test/resources/test_schemas/multiType.json,\
+./gradlew myRun -PmyArgs="-o,/tmp/test_beans,-m,src/test/resources/test_schemas/multiType.json,\
 -g,multifiles=src/main/resources/templates/java/bean.txt,\
 -gp,destFileNameExt=java,-gp,packageName=de.sw.atlas.test"
 
 # swagger example
-gradle myRun -PmyArgs="-o,/tmp/swagger,-m,src/test/resources/test_schemas/ds/user.json\
+./gradlew myRun -PmyArgs="-o,/tmp/swagger,-m,src/test/resources/test_schemas/ds/user.json\
 ,-g,swagger,-gp,removeEmptyLines=true,-gp,host=api.lisaplus.de"
 ```
 ### Usage of the release
@@ -97,7 +97,7 @@ Usage: de.lisaplus.atlas.DoCodeGen [options]
       if set the model is built with enum types
       Default: false
     -g, --generator
-      generator that are used with the model. This parameter can be used 
+      generator that are used with the model. This parameter can be used
       multiple times
       Default: []
     -gp, --generator-parameter
@@ -108,7 +108,7 @@ Usage: de.lisaplus.atlas.DoCodeGen [options]
     -h, --help
 
     -mta, --main-types-attrib
-      specify a needed attribute to be a maintype, used in addition to the 
+      specify a needed attribute to be a maintype, used in addition to the
       schema location
   * -m, --model
       Path to JSON schema to parse
@@ -116,7 +116,7 @@ Usage: de.lisaplus.atlas.DoCodeGen [options]
     -o, --outputBase
       Base directory for the output
     -pmt, --print-main-types
-      don't do any code generation, simply loads the model and print the 
+      don't do any code generation, simply loads the model and print the
       main-types of it
       Default: false
     -pmti, --print-main-types-info
@@ -134,7 +134,7 @@ Usage: de.lisaplus.atlas.DoCodeGen [options]
       remove a tag from all model types that are no main types, f.e. -rta rest
       Default: []
     -rta2a, --remove-tag-all-if-not-main-attrib
-      don't do any code generation, simply loads the model and print the 
+      don't do any code generation, simply loads the model and print the
       main-types of it
     -tmt, --tag-main-types
       if this flag is set all maintypes will be extended with a 'mainType' tag
@@ -144,7 +144,7 @@ Usage: de.lisaplus.atlas.DoCodeGen [options]
       Default: []
 ```
 
-After you built a release with gradle or you download a release bundle you can start
+After you built a release with gradle / gradle wrapper or you download a release bundle you can start
 the program with the contained start script. If you start it with the help option you
 get a full description of the possible parameters
 ```bash
@@ -177,9 +177,9 @@ basic design.
 
 # Template Debugging
 ## General Remarks
-From version 0.13.0 it is also possible to debug code from templates. This is
+From version 0.13.0 on it is also possible to debug code from templates. This is
 a common use case if the templates become more complicated. Unfortunately is it
-not possible to debug code that is included direct into the template, but 
+not possible to debug code that is included direct into the template, but
 with the '-gs' command line switch a external Groovy script can be injected into
 the code generation templates.
 
@@ -190,14 +190,14 @@ are declared as clojure inside the generator-script.
 ```Groovy
 // example usage of a generator script defined function
 ${script.generatorScriptDefinedFunction(possibleParameter)}
-``` 
+```
 
 ```Groovy
 // example function definition in a generator script
 def generatorScriptDefinedFunction(def someString) {
     return "Hello: $someString"
 }
-``` 
+```
 ## Code Examples
 * [example additional generator script](./src/test/resources/templates/handling_helper.groovy)
 * [example template that utilize the script](./src/test/resources/templates/handling.txt)
@@ -216,7 +216,8 @@ def generatorScriptDefinedFunction(def someString) {
 This approach can also be used for other projects.
 
 ## Do NEXUS release
-For uploading a binary release / release archive of jsonCodeGen to a NEXUS instance use corresponding release script [uploadReleaseToNexus.sh](bin/uploadReleaseToNexus.sh).  
+For uploading a binary release / release archive of jsonCodeGen to a NEXUS instance use corresponding release script [uploadReleaseToNexus.sh](bin/uploadReleaseToNexus.sh).
+
 It needs some environment variables to work properly:
 
 * NEXUS_RAW_ARCHIVE: URL to the directory, where the binary release is to be POSTed

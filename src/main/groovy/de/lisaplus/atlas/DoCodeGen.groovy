@@ -299,6 +299,8 @@ class DoCodeGen {
      * @param outputBaseDir path to the desired directory
      */
     static void prepareOutputBaseDir(String outputBaseDir) {
+        // Avoid calling new File(null), which groovy refuses to map to either new File(String) or new File(URL)!
+        if (!outputBaseDir) return
         File f = new File(outputBaseDir)
         if (f.isDirectory()) return
         if (f.isFile()) {
